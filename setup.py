@@ -4,9 +4,9 @@ import setuptools
 setuptools.setup(
     name="gdadorn",
     version='0.1.0',
-    url="",
+    url="https://github.com/similarface/gdadorn.git",
     author="similarface",
-    EMAIL='similarface@gmail.com',
+    author_email='similarface@gmail.com',
     description="jupyer的一些扩展修改，内存显示，下载限制等等",
     packages=setuptools.find_packages(),
     install_requires=[
@@ -19,5 +19,6 @@ setuptools.setup(
         ('etc/jupyter/nbconfig/notebook.d', ['gdadorn/etc/nbextension.json'])
     ],
     zip_safe=False,
-    include_package_data=True
+    include_package_data=True,
+    license ='MIT Licence',
 )
