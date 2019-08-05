@@ -1,3 +1,5 @@
+GenoDig notebook 的扩展插件包。
+
 pip install gdadorn
 jupyter serverextension enable --py gdadorn --sys-prefix
 jupyter nbextension install --py gdadorn --sys-prefix

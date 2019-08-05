@@ -39,6 +39,97 @@ class MetricsHandler(IPythonHandler):
         }
         self.write(json.dumps(metrics))
 
+from notebook.services.contents.handlers import validate_model, ContentsHandler,ModifyCheckpointsHandler
+from notebook.utils import maybe_future
+from tornado import gen, web
+from jupyter_client.jsonutil import date_default
+
+
+class ContentsMonitorHandler(ContentsHandler):
+    def _finish_model(self, model, location=True):
+        """Finish a JSON request with a model, setting relevant headers, etc."""
+        if location:
+            location = self.location_url(model['path'])
+            self.set_header('Location', location)
+        self.set_header('Last-Modified', model['last_modified'])
+        self.set_header('Content-Type', 'application/json')
+        self.finish(json.dumps(model, default=date_default))
+
+    @web.authenticated
+    @gen.coroutine
+    def post(self, path=''):
+        """Create a new file in the specified path.
+
+        POST creates new files. The server always decides on the name.
+
+        POST /api/contents/path
+          New untitled, empty file or directory.
+        POST /api/contents/path
+          with body {"copy_from" : "/path/to/OtherNotebook.ipynb"}
+          New copy of OtherNotebook in path
+        """
+        print(path,"post")
+
+        cm = self.contents_manager
+
+        file_exists = yield maybe_future(cm.file_exists(path))
+        if file_exists:
+            raise web.HTTPError(400, "Cannot POST to files, use PUT instead.")
+
+        dir_exists = yield maybe_future(cm.dir_exists(path))
+        if not dir_exists:
+            raise web.HTTPError(404, "No such directory: %s" % path)
+
+        model = self.get_json_body()
+
+        if model is not None:
+            copy_from = model.get('copy_from')
+            ext = model.get('ext', '')
+            type = model.get('type', '')
+            if copy_from:
+                yield self._copy(copy_from, path)
+            else:
+                yield self._new_untitled(path, type=type, ext=ext)
+        else:
+            yield self._new_untitled(path)
+
+    @web.authenticated
+    @gen.coroutine
+    def put(self, path=''):
+        """Saves the file in the location specified by name and path.
+
+        PUT is very similar to POST, but the requester specifies the name,
+        whereas with POST, the server picks the name.
+
+        PUT /api/contents/path/Name.ipynb
+          Save notebook at ``path/Name.ipynb``. Notebook structure is specified
+          in `content` key of JSON request body. If content is not specified,
+          create a new empty notebook.
+        """
+        model = self.get_json_body()
+        content = model.get("content",None)
+        cells = None
+        source = []
+        if content:
+            cells = content.get('cells',None)
+        if cells:
+            for cell in cells:
+                source.append(cell.get('source',''))
+        print(self.current_user)
+        print(self.path)
+        print('\n'.join(source))
+        if model:
+            if model.get('copy_from'):
+                raise web.HTTPError(400, "Cannot copy with PUT, only POST")
+            exists = yield maybe_future(self.contents_manager.file_exists(path))
+            if exists:
+                yield maybe_future(self._save(model, path))
+            else:
+                yield maybe_future(self._upload(model, path))
+        else:
+            yield maybe_future(self._new_untitled(path))
+
+
 
 class DownLoadLimitHandler(AuthenticatedFileHandler):
     def validate_absolute_path(self, root, absolute_path):
@@ -61,6 +152,7 @@ class DownLoadLimitHandler(AuthenticatedFileHandler):
                 "Refusing to serve hidden file, via 404 Error, use flag 'ContentsManager.allow_hidden' to enable")
             raise web.HTTPError(404)
         return abs_path
+
 
 
 def _jupyter_server_extension_paths():
@@ -129,8 +221,13 @@ def load_jupyter_server_extension(mfapp):
     route_pattern = url_path_join(mfapp.web_app.settings['base_url'], '/metrics')
     mfapp.web_app.add_handlers('.*', [(route_pattern, MetricsHandler)])
     rules = mfapp.web_app.wildcard_router.rules
+    index=0
     for rule in rules:
         if rule.target == AuthenticatedFileHandler:
             mfapp.web_app.wildcard_router.rules = [Rule(rule.matcher, DownLoadLimitHandler, rule.target_kwargs,
                                                         rule.name)] + mfapp.web_app.wildcard_router.rules
-            break
+
+        if rule.target == ContentsHandler:
+            mfapp.web_app.wildcard_router.rules[index] = Rule(rule.matcher, ContentsMonitorHandler, rule.target_kwargs,rule.name)
+
+        index = index + 1
