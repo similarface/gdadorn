@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efd0ca4c-dad0-48aa-a511-f41820e3195d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README" beforeDir="false" afterPath="$PROJECT_DIR$/README" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gdadorn/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gdadorn/__init__.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,37 +41,38 @@
           <entry key="LICENSE" value="13" />
           <entry key="README" value="48" />
           <entry key="gitignore" value="6" />
-          <entry key="py" value="366" />
+          <entry key="py" value="850" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="67" />
-          <entry key="Python" value="366" />
+          <entry key="Python" value="850" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gdadorn/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-46">
-              <caret line="118" column="23" selection-start-line="118" selection-start-column="23" selection-end-line="118" selection-end-column="23" />
+            <state relative-caret-position="371">
+              <caret line="88" column="122" selection-start-line="88" selection-start-column="122" selection-end-line="88" selection-end-column="122" />
               <folding>
                 <element signature="e#142#151#0" expanded="true" />
-                <marker date="1564999427196" expanded="true" signature="1593:1977" ph="..." />
+                <marker date="1565060860300" expanded="true" signature="1577:1686" ph="..." />
+                <marker date="1565060860300" expanded="true" signature="1752:2136" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/README">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="24" selection-start-column="24" selection-end-column="24" />
+            <state relative-caret-position="75">
+              <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -102,7 +102,7 @@
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/notebook/services/contents/manager.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="565">
-              <caret line="525" column="39" lean-forward="true" selection-start-line="525" selection-start-column="39" selection-end-line="525" selection-end-column="39" />
+              <caret line="525" column="39" selection-start-line="525" selection-start-column="39" selection-end-line="525" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -111,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/notebook/services/contents/filecheckpoints.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-88">
-              <caret line="113" column="9" lean-forward="true" selection-start-line="113" selection-start-column="9" selection-end-line="113" selection-end-column="9" />
+              <caret line="113" column="9" selection-start-line="113" selection-start-column="9" selection-end-line="113" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -129,7 +129,7 @@
         <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/notebook/utils.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="280">
-              <caret line="308" column="13" lean-forward="true" selection-start-line="308" selection-start-column="13" selection-end-line="308" selection-end-column="13" />
+              <caret line="308" column="13" selection-start-line="308" selection-start-column="13" selection-end-line="308" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -152,8 +152,8 @@
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/gdadorn/__init__.py" />
         <option value="$PROJECT_DIR$/README" />
+        <option value="$PROJECT_DIR$/gdadorn/__init__.py" />
       </list>
     </option>
   </component>
@@ -164,10 +164,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1753" />
+    <option name="x" value="1447" />
     <option name="y" value="23" />
     <option name="width" value="1834" />
-    <option name="height" value="1057" />
+    <option name="height" value="1006" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -242,16 +242,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1753" y="23" width="1834" height="1057" extended-state="0" />
+    <frame x="1447" y="23" width="1834" height="1006" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17243303" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17243303" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.49222797" />
+      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.07986871" />
       <window_info anchor="bottom" id="Python Console" />
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -314,7 +314,7 @@
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/notebook/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
-          <caret line="308" column="13" lean-forward="true" selection-start-line="308" selection-start-column="13" selection-end-line="308" selection-end-column="13" />
+          <caret line="308" column="13" selection-start-line="308" selection-start-column="13" selection-end-line="308" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -328,14 +328,14 @@
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/notebook/services/contents/manager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="565">
-          <caret line="525" column="39" lean-forward="true" selection-start-line="525" selection-start-column="39" selection-end-line="525" selection-end-column="39" />
+          <caret line="525" column="39" selection-start-line="525" selection-start-column="39" selection-end-line="525" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.6/site-packages/notebook/services/contents/filecheckpoints.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-88">
-          <caret line="113" column="9" lean-forward="true" selection-start-line="113" selection-start-column="9" selection-end-line="113" selection-end-column="9" />
+          <caret line="113" column="9" selection-start-line="113" selection-start-column="9" selection-end-line="113" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -356,21 +356,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gdadorn/__init__.py">
+    <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-46">
-          <caret line="118" column="23" selection-start-line="118" selection-start-column="23" selection-end-line="118" selection-end-column="23" />
-          <folding>
-            <element signature="e#142#151#0" expanded="true" />
-            <marker date="1564999427196" expanded="true" signature="1593:1977" ph="..." />
-          </folding>
+        <state relative-caret-position="75">
+          <caret line="5" column="52" selection-start-line="5" selection-start-column="52" selection-end-line="5" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README">
+    <entry file="file://$PROJECT_DIR$/gdadorn/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="24" selection-start-column="24" selection-end-column="24" />
+        <state relative-caret-position="371">
+          <caret line="88" column="122" selection-start-line="88" selection-start-column="122" selection-end-line="88" selection-end-column="122" />
+          <folding>
+            <element signature="e#142#151#0" expanded="true" />
+            <marker date="1565060860300" expanded="true" signature="1577:1686" ph="..." />
+            <marker date="1565060860300" expanded="true" signature="1752:2136" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -17,6 +17,11 @@ from notebook.base.handlers import AuthenticatedFileHandler
 from notebook.utils import is_hidden, url_path_join, url_is_absolute, url_escape
 from tornado.routing import Rule
 
+from notebook.services.contents.handlers import validate_model, ContentsHandler,ModifyCheckpointsHandler
+from notebook.utils import maybe_future
+from tornado import gen, web
+from jupyter_client.jsonutil import date_default
+
 
 class MetricsHandler(IPythonHandler):
     @web.authenticated
@@ -39,13 +44,18 @@ class MetricsHandler(IPythonHandler):
         }
         self.write(json.dumps(metrics))
 
-from notebook.services.contents.handlers import validate_model, ContentsHandler,ModifyCheckpointsHandler
-from notebook.utils import maybe_future
-from tornado import gen, web
-from jupyter_client.jsonutil import date_default
+import time
+def md5str(string):
+    import hashlib
+    m = hashlib.sha256()
+    m.update(string.encode("utf-8"))
+    return m.hexdigest()
 
 
 class ContentsMonitorHandler(ContentsHandler):
+
+    md5cache = {}
+
     def _finish_model(self, model, location=True):
         """Finish a JSON request with a model, setting relevant headers, etc."""
         if location:
@@ -54,44 +64,6 @@ class ContentsMonitorHandler(ContentsHandler):
         self.set_header('Last-Modified', model['last_modified'])
         self.set_header('Content-Type', 'application/json')
         self.finish(json.dumps(model, default=date_default))
-
-    @web.authenticated
-    @gen.coroutine
-    def post(self, path=''):
-        """Create a new file in the specified path.
-
-        POST creates new files. The server always decides on the name.
-
-        POST /api/contents/path
-          New untitled, empty file or directory.
-        POST /api/contents/path
-          with body {"copy_from" : "/path/to/OtherNotebook.ipynb"}
-          New copy of OtherNotebook in path
-        """
-        print(path,"post")
-
-        cm = self.contents_manager
-
-        file_exists = yield maybe_future(cm.file_exists(path))
-        if file_exists:
-            raise web.HTTPError(400, "Cannot POST to files, use PUT instead.")
-
-        dir_exists = yield maybe_future(cm.dir_exists(path))
-        if not dir_exists:
-            raise web.HTTPError(404, "No such directory: %s" % path)
-
-        model = self.get_json_body()
-
-        if model is not None:
-            copy_from = model.get('copy_from')
-            ext = model.get('ext', '')
-            type = model.get('type', '')
-            if copy_from:
-                yield self._copy(copy_from, path)
-            else:
-                yield self._new_untitled(path, type=type, ext=ext)
-        else:
-            yield self._new_untitled(path)
 
     @web.authenticated
     @gen.coroutine
@@ -109,15 +81,26 @@ class ContentsMonitorHandler(ContentsHandler):
         model = self.get_json_body()
         content = model.get("content",None)
         cells = None
-        source = []
         if content:
             cells = content.get('cells',None)
         if cells:
+            source = []
+            username = self.current_user.get("name", "")
+            header = "\n### " + time.strftime("%Y%-m-%d %H:%M:%S", time.localtime()) + "\t" + username + "\t" + path + "\n"
+            daystr=time.strftime("%Y%m%d", time.localtime())
             for cell in cells:
                 source.append(cell.get('source',''))
-        print(self.current_user)
-        print(self.path)
-        print('\n'.join(source))
+            source.append("$$$ -END- \n\n")
+            content_text = '\n'.join(source)
+            content_md5 = md5str(content_text)
+            old_content_md5 = self.md5cache.get(path,"")
+            self.md5cache[path]=content_md5
+            if old_content_md5!=content_md5:
+                par_dir = f"/tmp/{username}/"
+                if not os.path.exists(par_dir):
+                    os.makedirs(par_dir)
+                with open(f"{par_dir}{daystr}",'a') as oper:
+                    oper.write(header+content_text)
         if model:
             if model.get('copy_from'):
                 raise web.HTTPError(400, "Cannot copy with PUT, only POST")
@@ -229,5 +212,4 @@ def load_jupyter_server_extension(mfapp):
 
         if rule.target == ContentsHandler:
             mfapp.web_app.wildcard_router.rules[index] = Rule(rule.matcher, ContentsMonitorHandler, rule.target_kwargs,rule.name)
-
         index = index + 1
